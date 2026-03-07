@@ -1,3 +1,6 @@
+# Directorios de trabajo locales
+db-artifacts/
+
 # Python
 __pycache__/
 *.py[cod]
