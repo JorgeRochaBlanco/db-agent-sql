@@ -1,43 +1,43 @@
 # DB Query Agent 🤖💬
 
-> **AI-powered natural language database query system using OpenAI Agents SDK**
+> **Sistema de consultas a bases de datos en lenguaje natural impulsado por IA usando OpenAI Agents SDK**
 
 [![PyPI version](https://badge.fury.io/py/db-query-agent.svg)](https://badge.fury.io/py/db-query-agent)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Downloads](https://pepy.tech/badge/db-query-agent)](https://pepy.tech/project/db-query-agent)
 
-A powerful, production-ready Python package that lets you query databases using natural language. Built with OpenAI Agents SDK, featuring intelligent safety guardrails, streaming responses, and optimized for speed.
+Un potente paquete de Python listo para producción que te permite consultar bases de datos usando lenguaje natural. Construido con OpenAI Agents SDK, incluye guardrails de seguridad inteligentes, respuestas en streaming y está optimizado para velocidad.
 
-## ✨ Features
+## ✨ Características
 
-- 🗣️ **Natural Language Queries** - Ask questions in plain English, get SQL and results
-- ⚡ **Blazing Fast** - Streaming responses, adaptive model selection, multi-layer caching
-- 🔒 **Production-Ready Safety** - Read-only mode, SQL injection prevention, query validation
-- 💬 **Session Management** - Maintains conversation context across multiple queries
-- 🎯 **Smart Schema Loading** - Only loads relevant tables for faster responses
-- 🔌 **Universal Database Support** - PostgreSQL, MySQL, SQLite, SQL Server
-- 📦 **Easy Integration** - Works with Django, Flask, FastAPI, or any Python app
+- 🗣️ **Consultas en lenguaje natural** - Haz preguntas en inglés sencillo y obtén SQL y resultados
+- ⚡ **Extremadamente rápido** - Respuestas en streaming, selección adaptativa de modelos y caché multinivel
+- 🔒 **Seguridad lista para producción** - Modo solo lectura, prevención de inyección SQL y validación de consultas
+- 💬 **Gestión de sesiones** - Mantiene el contexto de conversación entre múltiples consultas
+- 🎯 **Carga inteligente de esquemas** - Solo carga las tablas relevantes para respuestas más rápidas
+- 🔌 **Soporte universal de bases de datos** - PostgreSQL, MySQL, SQLite, SQL Server
+- 📦 **Integración sencilla** - Funciona con Django, Flask, FastAPI o cualquier aplicación Python
 
-## 🚀 Quick Start
+## 🚀 Inicio rápido
 
-### Installation
+### Instalación
 
 ```bash
 pip install db-query-agent
 
-# With database-specific drivers
+# Con drivers específicos de base de datos
 pip install db-query-agent[postgres]  # PostgreSQL
 pip install db-query-agent[mysql]     # MySQL
-pip install db-query-agent[all]       # All drivers
+pip install db-query-agent[all]       # Todos los drivers
 ```
 
-### Basic Usage
+### Uso básico
 
-**Option 1: Load from .env (Recommended)**
+**Opción 1: Cargar desde .env (Recomendado)**
 
 ```bash
-# Create .env file
+# Crear archivo .env
 DATABASE_URL=postgresql://user:pass@localhost/mydb
 OPENAI_API_KEY=sk-...
 FAST_MODEL=gpt-4o-mini
@@ -47,22 +47,22 @@ READ_ONLY=true
 ```python
 from db_agent_sql import DatabaseQueryAgent
 
-# Load everything from .env
+# Cargar todo desde .env
 agent = DatabaseQueryAgent.from_env()
 
-# Or override specific values
+# O sobrescribir valores específicos
 agent = DatabaseQueryAgent.from_env(
     fast_model="gpt-4.1",
     enable_statistics=True
 )
 ```
 
-**Option 2: Direct Configuration**
+**Opción 2: Configuración directa**
 
 ```python
 from db_agent_sql import DatabaseQueryAgent
 
-# Pass all parameters directly
+# Pasar todos los parámetros directamente
 agent = DatabaseQueryAgent(
     database_url="postgresql://user:pass@localhost/mydb",
     openai_api_key="sk-...",
@@ -72,10 +72,10 @@ agent = DatabaseQueryAgent(
 )
 ```
 
-### Query the Database
+### Consultar la base de datos
 
 ```python
-# Query in natural language (async)
+# Consulta en lenguaje natural (async)
 result = await agent.query("How many users signed up last month?")
 
 print(result["natural_response"])
@@ -85,64 +85,64 @@ print(result["sql"])
 # Output: "SELECT COUNT(*) FROM users WHERE created_at >= '2025-09-01'"
 ```
 
-### With Streaming (Recommended)
+### Con Streaming (Recomendado)
 
 ```python
-# Stream responses for better UX
+# Streaming de respuestas para mejor UX
 async for chunk in agent.query_stream("Show me top 10 customers by revenue"):
     print(chunk, end="", flush=True)
 ```
 
-### Session-based Chat
+### Chat basado en sesiones
 
 ```python
-# Create a session for multi-turn conversations
+# Crear una sesión para conversaciones de múltiples turnos
 session = agent.create_session(session_id="user_123")
 
-# First query
+# Primera consulta
 response1 = await session.ask("Show me all products")
 
-# Follow-up query (maintains context)
+# Consulta de seguimiento (mantiene contexto)
 response2 = await session.ask("Filter those by category=electronics")
 
-# Another follow-up
+# Otro seguimiento
 response3 = await session.ask("Sort by price descending")
 ```
 
-## 🔧 Utility Methods
+## 🔧 Métodos de utilidad
 
-### Session Management
+### Gestión de sesiones
 
 ```python
-# List all active sessions
+# Listar todas las sesiones activas
 sessions = agent.list_sessions()
 
-# Get conversation history
+# Obtener historial de conversación
 history = agent.get_session_history("user_123")
 
-# Clear session history
+# Limpiar historial de sesión
 agent.clear_session("user_123")
 
-# Delete session
+# Eliminar sesión
 agent.delete_session("user_123")
 ```
 
-### Schema Exploration
+### Exploración del esquema
 
 ```python
-# Get basic schema
+# Obtener esquema básico
 schema = agent.get_schema()
 
-# Get detailed schema with relationships
+# Obtener esquema detallado con relaciones
 schema_info = agent.get_schema_info(include_foreign_keys=True)
 print(f"Total tables: {schema_info['total_tables']}")
 print(f"Relationships: {len(schema_info['relationships'])}")
 ```
 
-### Statistics and Monitoring
+### Estadísticas y monitoreo
 
 ```python
-# Get comprehensive statistics
+# Obtener estadísticas completas
 stats = agent.get_stats()
 
 print(f"Total queries: {stats['total_queries']}")
@@ -151,7 +151,7 @@ print(f"Active connections: {stats['pool']['checked_out']}")
 print(f"Total sessions: {stats['sessions']['total_sessions']}")
 ```
 
-## 🎯 Framework Integration
+## 🎯 Integración con frameworks
 
 ### Django
 
@@ -201,11 +201,11 @@ def query():
     return agent.query(request.json['question'])
 ```
 
-## ⚙️ Configuration
+## ⚙️ Configuración
 
-### Environment Variables (Recommended)
+### Variables de entorno (Recomendado)
 
-Create a `.env` file with all configuration:
+Crea un archivo `.env` con toda la configuración:
 
 ```bash
 # Required
@@ -240,208 +240,54 @@ ENABLE_STREAMING=true
 WARMUP_ON_INIT=false
 ```
 
-Then load with a single line:
+Luego cárgalo con una sola línea:
+
 ```python
 agent = DatabaseQueryAgent.from_env()
 ```
 
-### Direct Configuration
+## 📊 Rendimiento
 
-Pass parameters directly (overrides .env):
-
-```python
-from db_agent_sql import DatabaseQueryAgent
-
-agent = DatabaseQueryAgent(
-    database_url="postgresql://...",
-    openai_api_key="sk-...",
-    
-    # Model configuration
-    model_strategy="adaptive",  # Use fast model for simple queries
-    fast_model="gpt-4o-mini",   # 2s generation time
-    balanced_model="gpt-4.1-mini",  # 3s generation time
-    complex_model="gpt-4.1",     # 5s generation time
-    
-    # Cache configuration
-    enable_cache=True,
-    cache_backend="redis",
-    schema_cache_ttl=3600,  # 1 hour
-    query_cache_ttl=300,    # 5 minutes
-    llm_cache_ttl=3600,     # 1 hour
-    
-    # Safety configuration
-    read_only=True,
-    allowed_tables=["users", "orders", "products"],
-    blocked_tables=["sensitive_data"],
-    max_query_timeout=30,
-    max_result_rows=10000,
-    
-    # Connection configuration
-    pool_size=10,
-    max_overflow=20,
-    
-    # Performance configuration
-    lazy_schema_loading=True,
-    max_tables_in_context=5,
-    enable_streaming=True,
-    warmup_on_init=False,
-    
-    # Statistics configuration
-    enable_statistics=True,  # Track queries, cache hits, etc.
-    
-    # Session configuration
-    session_backend="sqlite",
-    session_db_path="./sessions.db"
-)
-```
-
-### Mixed Configuration
-
-Load from `.env` and override specific values:
-
-```python
-# Load most settings from .env, override specific ones
-agent = DatabaseQueryAgent.from_env(
-    fast_model="gpt-4.1",  # Override model
-    read_only=False,       # Override safety
-    enable_statistics=True  # Add statistics
-)
-```
-
-## 📊 Performance
-
-With all optimizations enabled:
-
-| Scenario | Response Time | Cache Hit |
+| Escenario | Tiempo de respuesta | Cache Hit |
 |----------|---------------|-----------|
-| Simple query (cached) | **0.5s** | ✅ |
-| Simple query (uncached) | **1.5s** | ❌ |
-| Complex query (cached) | **2s** | ✅ |
-| Complex query (uncached) | **5s** | ❌ |
+| Consulta simple (cache) | **0.5s** | ✅ |
+| Consulta simple (sin cache) | **1.5s** | ❌ |
+| Consulta compleja (cache) | **2s** | ✅ |
+| Consulta compleja (sin cache) | **5s** | ❌ |
 
-- **90% of queries** complete in < 3 seconds
-- **First token** appears in < 500ms with streaming
-- **Cache hit rate** typically > 60% in production
+- **El 90% de las consultas** se completan en < 3 segundos
+- **El primer token** aparece en < 500ms con streaming
+- **La tasa de aciertos de caché** suele ser > 60% en producción
 
-## 🔒 Security Features
+## 🔒 Características de seguridad
 
-- ✅ **Read-only mode** by default (only SELECT queries)
-- ✅ **SQL injection prevention** with query parsing and validation
-- ✅ **Table access control** with allowlist/blocklist
-- ✅ **Query timeout** enforcement
-- ✅ **Dangerous keyword detection** (DROP, DELETE, etc.)
-- ✅ **Input/output guardrails** with OpenAI Agents SDK
+- ✅ **Modo solo lectura** por defecto (solo consultas SELECT)
+- ✅ **Prevención de inyección SQL** mediante análisis y validación de consultas
+- ✅ **Control de acceso a tablas** con allowlist/blocklist
+- ✅ **Límites de tiempo de consulta**
+- ✅ **Detección de palabras clave peligrosas** (DROP, DELETE, etc.)
+- ✅ **Guardrails de entrada/salida** con OpenAI Agents SDK
 
-## 📚 Documentation
+## 🤝 Contribuir
 
-### Core Documentation
-- **[API Reference](./docs/API_REFERENCE.md)** - Complete API documentation for all classes and methods
-- **[Integration Guides](./docs/INTEGRATION_GUIDES.md)** - Django, Flask, FastAPI, Streamlit, Jupyter integrations
-- **[Troubleshooting Guide](./docs/TROUBLESHOOTING.md)** - Common issues and solutions
-- **[Architecture](./docs/ARCHITECTURE.md)** - System design and architecture decisions
+¡Las contribuciones son bienvenidas! Puedes ayudar de las siguientes maneras:
 
-### Examples
-- **[Basic Examples](./examples/basic_usage.py)** - 7 basic usage examples
-- **[Advanced Examples](./examples/advanced_usage.py)** - 8 advanced patterns and optimizations
-- **[Examples Guide](./examples/README.md)** - Overview of all examples
+1. **Reportar bugs** — Abre un issue con detalles del problema
+2. **Sugerir nuevas funcionalidades** — Comparte ideas de mejora
+3. **Enviar PRs** — Corrige bugs o añade funcionalidades
+4. **Mejorar la documentación** — Ayuda a hacerla más clara
+5. **Compartir feedback** — Cuéntanos cómo usas el paquete
 
-## 🧪 Development
+## 📄 Licencia
 
-### Setup
+Este proyecto está licenciado bajo la licencia MIT — consulta el archivo [LICENSE](LICENSE) para más detalles.
 
-```bash
-# Clone repository
-git clone https://github.com/Ocolus1/db-query-agent
-cd db-query-agent
+## 🙏 Agradecimientos
 
-# Install dependencies
-pip install -e ".[dev]"
-
-# Run tests
-pytest
-
-# Run demo UI
-streamlit run demo/streamlit_app.py
-```
-
-### Learn More
-
-- **New to the package?** Start with [Basic Examples](./examples/basic_usage.py)
-- **Integrating with a framework?** Check [Integration Guides](./docs/INTEGRATION_GUIDES.md)
-- **Need help?** See [Troubleshooting Guide](./docs/TROUBLESHOOTING.md)
-- **Want to understand the internals?** Read [Architecture](./docs/ARCHITECTURE.md)
-
-## 📁 Project Structure
-
-```
-db-query-agent/
-├── src/db_agent_sql/          # Main package source code
-│   ├── __init__.py
-│   ├── agent.py                 # DatabaseQueryAgent - main interface
-│   ├── simple_multi_agent_system.py  # Multi-agent orchestration
-│   ├── agents/                  # Agent implementations
-│   ├── tools/                   # Agent tools
-│   ├── schema_extractor.py      # Database schema introspection
-│   ├── cache_manager.py         # Multi-layer caching system
-│   ├── connection_manager.py    # Database connection pooling
-│   ├── query_validator.py       # SQL validation and safety
-│   ├── session_manager.py       # Conversation session management
-│   ├── config.py                # Configuration classes
-│   └── exceptions.py            # Custom exceptions
-│
-├── docs/                        # Documentation
-│   ├── API_REFERENCE.md         # Complete API documentation
-│   ├── INTEGRATION_GUIDES.md    # Framework integration guides
-│   ├── TROUBLESHOOTING.md       # Common issues & solutions
-│   └── ARCHITECTURE.md          # System architecture
-│
-├── examples/                    # Usage examples
-│   ├── basic_usage.py           # 7 basic examples
-│   ├── advanced_usage.py        # 8 advanced examples
-│   └── README.md                # Examples documentation
-│
-├── demo/                        # Demo application
-│   ├── streamlit_app.py         # Interactive demo UI
-│   └── create_demo_db.py        # Demo database setup
-│
-├── tests/                       # Test suite (133 tests)
-│   ├── test_agent_integration.py
-│   ├── test_cache_manager.py
-│   ├── test_dynamic_configuration.py
-│   ├── test_streaming.py
-│   └── ...
-│
-└── pyproject.toml               # Package configuration
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. **Report bugs** - Open an issue with details about the problem
-2. **Suggest features** - Share your ideas for improvements
-3. **Submit PRs** - Fix bugs or add features
-4. **Improve docs** - Help make the documentation better
-5. **Share feedback** - Let us know how you're using the package
-
-Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Built with [OpenAI Agents SDK](https://github.com/openai/openai-agents-python)
-- Database abstraction by [SQLAlchemy](https://www.sqlalchemy.org/)
-- SQL parsing by [sqlparse](https://github.com/andialbrecht/sqlparse)
-
-## 📧 Support
-
-- 📖 [Documentation](https://github.com/Ocolus1/db-query-agent#readme)
-- 🐛 [Issue Tracker](https://github.com/Ocolus1/db-query-agent/issues)
-- 💬 [Discussions](https://github.com/Ocolus1/db-query-agent/discussions)
+- Construido con [OpenAI Agents SDK](https://github.com/openai/openai-agents-python)
+- Abstracción de base de datos mediante [SQLAlchemy](https://www.sqlalchemy.org/)
+- Análisis de SQL con [sqlparse](https://github.com/andialbrecht/sqlparse)
 
 ---
 
-**Made with ❤️ for developers who want to query databases with natural language**
+**Hecho con ❤️ para desarrolladores que quieren consultar bases de datos usando lenguaje natural**
