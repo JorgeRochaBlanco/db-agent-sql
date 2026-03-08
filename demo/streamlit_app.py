@@ -1,4 +1,4 @@
-"""Streamlit demo app for db-query-agent."""
+"""Aplicación demo de Streamlit para db-agent-sql."""
 
 import streamlit as st
 import pandas as pd
@@ -10,22 +10,22 @@ import logging
 import os
 from dotenv import load_dotenv
 
-# Load environment variables
+# Cargar variables de entorno
 load_dotenv()
 
-# Configure logging
+# Configurar logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Page configuration
+# Configuración de la página
 st.set_page_config(
-    page_title="DB Query Agent Demo",
+    page_title="Demo del Agente de Consultas a BD",
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
+# CSS personalizado
 st.markdown("""
 <style>
     .main-header {
@@ -40,7 +40,7 @@ st.markdown("""
         margin-bottom: 2rem;
     }
     
-    /* Chat Interface Styles */
+    /* Estilos de la interfaz de chat */
     .chat-container {
         display: flex;
         flex-direction: column;
@@ -118,7 +118,7 @@ st.markdown("""
         color: #721c24;
     }
     
-    /* Input area at bottom */
+    /* Área de entrada en la parte inferior */
     .chat-input-container {
         position: sticky;
         bottom: 0;
@@ -132,7 +132,7 @@ st.markdown("""
 
 
 def init_session_state():
-    """Initialize session state variables."""
+    """Inicializar variables del estado de sesión."""
     if 'agent' not in st.session_state:
         st.session_state.agent = None
     if 'connected' not in st.session_state:
@@ -154,53 +154,53 @@ def init_session_state():
 
 
 def connect_to_database(**kwargs) -> bool:
-    """Connect to database and initialize agent using flexible configuration.
+    """Conectarse a la base de datos e inicializar el agente usando configuración flexible.
     
-    The agent will load credentials from .env by default, with overrides from kwargs.
+    El agente cargará las credenciales desde .env por defecto, con posibles sobrescrituras desde kwargs.
     """
     try:
         from db_agent_sql import DatabaseQueryAgent      #db_agent_sql    db_agent_sql
         
-        # Use from_env() which loads from .env and allows overrides
+        # Usar from_env() que carga desde .env y permite sobrescrituras
         st.session_state.agent = DatabaseQueryAgent.from_env(
-            enable_statistics=True,  # Enable query statistics
+            enable_statistics=True,  # Habilitar estadísticas de consultas
             **kwargs
         )
         
-        # Test connection
+        # Probar conexión
         if st.session_state.agent.connection_manager.test_connection():
             st.session_state.connected = True
             
-            # Load schema
+            # Cargar esquema
             st.session_state.schema_cache = st.session_state.agent.get_schema()
             
             return True
         else:
-            st.error("❌ Connection test failed")
+            st.error("❌ La prueba de conexión falló")
             return False
             
     except Exception as e:
-        st.error(f"❌ Connection failed: {str(e)}")
-        logger.error(f"Connection error: {e}", exc_info=True)
+        st.error(f"❌ La conexión falló: {str(e)}")
+        logger.error(f"Error de conexión: {e}", exc_info=True)
         return False
 
 
 def sidebar_config():
-    """Render sidebar configuration."""
-    st.sidebar.markdown("## 🔧 Configuration")
+    """Renderizar la configuración de la barra lateral."""
+    st.sidebar.markdown("## 🔧 Configuración")
     
-    # Get credentials from environment
+    # Obtener credenciales desde el entorno
     database_url = os.getenv("DATABASE_URL")
     openai_api_key = os.getenv("OPENAI_API_KEY")
     
-    # Database Configuration
-    with st.sidebar.expander("🗄️ Database Connection", expanded=not st.session_state.connected):
-        # Display connection info (masked)
+    # Configuración de la base de datos
+    with st.sidebar.expander("🗄️ Conexión a la Base de Datos", expanded=not st.session_state.connected):
+        # Mostrar información de conexión (enmascarada)
         if database_url:
-            # Mask sensitive parts of URL
+            # Ocultar partes sensibles de la URL
             display_url = database_url
             if "://" in display_url and "@" in display_url:
-                # Mask password in URL
+                # Ocultar contraseña en la URL
                 parts = display_url.split("://")
                 if len(parts) == 2 and "@" in parts[1]:
                     auth_and_host = parts[1].split("@")
@@ -208,78 +208,78 @@ def sidebar_config():
                         user = auth_and_host[0].split(":")[0]
                         display_url = f"{parts[0]}://{user}:****@{auth_and_host[1]}"
             
-            st.info(f"📍 **Database:** `{display_url}`")
+            st.info(f"📍 **Base de datos:** `{display_url}`")
         else:
-            st.error("❌ DATABASE_URL not found in .env file")
+            st.error("❌ DATABASE_URL no se encontró en el archivo .env")
         
         if openai_api_key:
             st.info(f"🔑 **API Key:** `{openai_api_key[:8]}...{openai_api_key[-4:]}`")
         else:
-            st.error("❌ OPENAI_API_KEY not found in .env file")
+            st.error("❌ OPENAI_API_KEY no se encontró en el archivo .env")
         
-        # Advanced options
-        with st.expander("Advanced Options"):
-            read_only = st.checkbox("Read-Only Mode", value=True, help="Only allow SELECT queries")
-            enable_cache = st.checkbox("Enable Caching", value=True)
+        # Opciones avanzadas
+        with st.expander("Opciones avanzadas"):
+            read_only = st.checkbox("Modo Solo Lectura", value=True, help="Permitir solo consultas SELECT")
+            enable_cache = st.checkbox("Habilitar caché", value=True)
             model_strategy = st.selectbox(
-                "Model Strategy",
+                "Estrategia de modelo",
                 ["adaptive", "fixed"],
-                help="Adaptive: Choose model based on query complexity"
+                help="Adaptativo: elegir modelo según la complejidad de la consulta"
             )
         
-        if st.button("🔌 Connect", type="primary", width="stretch", disabled=not (database_url and openai_api_key)):
+        if st.button("🔌 Conectar", type="primary", width="stretch", disabled=not (database_url and openai_api_key)):
             if not database_url or not openai_api_key:
-                st.error("❌ Please set DATABASE_URL and OPENAI_API_KEY in demo/.env file")
+                st.error("❌ Por favor configura DATABASE_URL y OPENAI_API_KEY en el archivo demo/.env")
             else:
-                with st.spinner("Connecting..."):
-                    # Pass overrides to from_env() - credentials loaded from .env automatically
+                with st.spinner("Conectando..."):
+                    # Pasar sobrescrituras a from_env() - credenciales cargadas desde .env automáticamente
                     success = connect_to_database(
                         read_only=read_only,
                         enable_cache=enable_cache,
                         model_strategy=model_strategy
                     )
                     if success:
-                        st.success("✅ Connected successfully!")
+                        st.success("✅ ¡Conectado correctamente!")
                         st.rerun()
         
         if st.session_state.connected:
-            if st.button("🔌 Disconnect", width="stretch"):
+            if st.button("🔌 Desconectar", width="stretch"):
                 st.session_state.agent = None
                 st.session_state.connected = False
                 st.session_state.schema_cache = None
                 st.rerun()
     
-    # Statistics
+    # Estadísticas
     if st.session_state.connected and st.session_state.agent:
-        with st.sidebar.expander("📊 Statistics", expanded=True):
+        with st.sidebar.expander("📊 Estadísticas", expanded=True):
             stats = st.session_state.agent.get_stats()
             
             col1, col2 = st.columns(2)
             with col1:
-                st.metric("Total Queries", stats.get('total_queries', 0))
-                st.metric("Cache Hits", stats.get('cache_hits', 0))
+                st.metric("Consultas totales", stats.get('total_queries', 0))
+                st.metric("Aciertos de caché", stats.get('cache_hits', 0))
             with col2:
-                st.metric("Successful", stats.get('successful_queries', 0))
-                st.metric("Failed", stats.get('failed_queries', 0))
+                st.metric("Exitosas", stats.get('successful_queries', 0))
+                st.metric("Fallidas", stats.get('failed_queries', 0))
             
             if stats.get('total_queries', 0) > 0:
                 hit_rate = (stats.get('cache_hits', 0) / stats['total_queries']) * 100
-                st.metric("Cache Hit Rate", f"{hit_rate:.1f}%")
+                st.metric("Tasa de aciertos de caché", f"{hit_rate:.1f}%")
 
 
 def render_schema_browser():
-    """Render schema browser."""
+    """Renderizar el explorador del esquema."""
     if not st.session_state.connected or not st.session_state.schema_cache:
-        st.info("ℹ️ Connect to a database to view schema")
+        st.info("ℹ️ Conéctate a una base de datos para ver el esquema")
         return
     
-    st.markdown("### 📚 Database Schema")
+    st.markdown("### 📚 Esquema de la Base de Datos")
     
     schema = st.session_state.schema_cache
     
-    # Table selector
+    # Selector de tabla
     table_names = list(schema.keys())
-    selected_table = st.selectbox("Select Table", table_names)
+    selected_table = st.selectbox("Seleccionar tabla", table_names)
     
     if selected_table:
         table_info = schema[selected_table]
@@ -289,7 +289,7 @@ def render_schema_browser():
         with col1:
             st.markdown(f"#### 📋 {selected_table}")
             
-            # Columns
+            # Columnas
             if 'columns' in table_info:
                 columns_df = pd.DataFrame([
                     {
@@ -303,42 +303,42 @@ def render_schema_browser():
                 st.dataframe(columns_df, width="stretch", hide_index=True)
         
         with col2:
-            # Table stats
-            st.markdown("#### 📊 Table Info")
-            st.metric("Columns", len(table_info.get('columns', [])))
+            # Estadísticas de la tabla
+            st.markdown("#### 📊 Información de la Tabla")
+            st.metric("Columnas", len(table_info.get('columns', [])))
             
             if 'foreign_keys' in table_info and table_info['foreign_keys']:
-                st.metric("Foreign Keys", len(table_info['foreign_keys']))
+                st.metric("Claves Foráneas", len(table_info['foreign_keys']))
             
             if 'indexes' in table_info and table_info['indexes']:
-                st.metric("Indexes", len(table_info['indexes']))
+                st.metric("Índices", len(table_info['indexes']))
         
-        # Foreign Keys
+        # Claves foráneas
         if 'foreign_keys' in table_info and table_info['foreign_keys']:
-            with st.expander("🔗 Foreign Keys"):
+            with st.expander("🔗 Claves Foráneas"):
                 for fk in table_info['foreign_keys']:
                     st.markdown(f"- `{fk.get('constrained_columns', [])}` → `{fk.get('referred_table')}.{fk.get('referred_columns', [])}`")
 
 
-# Note: Casual conversation and natural response generation
-# is now handled by the agent itself (conversational_layer.py)
-# No need to duplicate logic here!
+# Nota: La conversación casual y la generación de respuestas naturales
+# ahora son gestionadas por el propio agente (conversational_layer.py)
+# ¡No es necesario duplicar la lógica aquí!
 
 
 def render_chat_message(message: dict, idx: int):
-    """Render a single chat message bubble."""
+    """Renderizar una única burbuja de mensaje del chat."""
     if message['type'] == 'thinking':
-        # Show thinking indicator
+        # Mostrar indicador de pensamiento
         st.markdown(
             '<div style="text-align: left; margin: 10px 0;">'
             '<span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); '
             'color: white; padding: 12px 20px; border-radius: 20px; display: inline-block; '
-            'font-size: 14px;">🤔 Thinking...</span>'
+            'font-size: 14px;">🤔 Pensando...</span>'
             '</div>',
             unsafe_allow_html=True
         )
     elif message['type'] == 'user':
-        # User message bubble
+        # Burbuja de mensaje del usuario
         st.markdown(f"""
         <div class="user-message">
             <div class="user-bubble">
@@ -349,14 +349,14 @@ def render_chat_message(message: dict, idx: int):
         """, unsafe_allow_html=True)
     
     else:
-        # AI message bubble
+        # Burbuja de mensaje de la IA
         result = message['result']
         is_casual = result.get('is_casual', False)
         
-        # Natural response is now generated by the agent's conversational layer
-        natural_response = result.get('natural_response', 'I executed your query.')
+        # La respuesta natural ahora es generada por la capa conversacional del agente
+        natural_response = result.get('natural_response', 'He ejecutado tu consulta.')
         
-        # Display AI bubble with natural response
+        # Mostrar burbuja de IA con respuesta natural
         st.markdown(f"""
         <div class="ai-message">
             <div class="ai-bubble">
@@ -368,86 +368,86 @@ def render_chat_message(message: dict, idx: int):
         </div>
         """, unsafe_allow_html=True)
         
-        # Only show technical details for database queries, not casual conversation
+        # Mostrar detalles técnicos solo para consultas a la base de datos, no para conversación casual
         if is_casual:
             return
         
-        # Confidence badge
+        # Indicador de confianza
         if 'confidence' in result:
             confidence = result['confidence']
             if confidence > 0.8:
                 badge_class = "confidence-high"
-                badge_text = f"✓ {confidence:.0%} confident"
+                badge_text = f"✓ {confidence:.0%} de confianza"
             elif confidence > 0.5:
                 badge_class = "confidence-medium"
-                badge_text = f"⚠ {confidence:.0%} confident"
+                badge_text = f"⚠ {confidence:.0%} de confianza"
             else:
                 badge_class = "confidence-low"
-                badge_text = f"⚠ {confidence:.0%} confident"
+                badge_text = f"⚠ {confidence:.0%} de confianza"
             
             st.markdown(f'<span class="confidence-badge {badge_class}">{badge_text}</span>', unsafe_allow_html=True)
 
 
 def render_query_interface():
-    """Render chat-style query interface."""
+    """Renderizar la interfaz de consultas estilo chat."""
     if not st.session_state.connected:
-        st.info("ℹ️ Connect to a database to start querying")
+        st.info("ℹ️ Conéctate a una base de datos para empezar a consultar")
         return
     
-    st.markdown("### 💬 Chat with Your Database")
+    st.markdown("### 💬 Chatea con tu Base de Datos")
     
-    # Session and Streaming toggles
+    # Controles de Sesión y Streaming
     col1, col2, col3 = st.columns([4, 1, 1])
     with col2:
-        st.session_state.use_session = st.checkbox("💬 Session", value=st.session_state.use_session, help="Maintain conversation context")
+        st.session_state.use_session = st.checkbox("💬 Sesión", value=st.session_state.use_session, help="Mantener el contexto de la conversación")
     with col3:
-        # Streaming toggle - always visible, controls whether to use streaming
-        st.session_state.use_streaming = st.checkbox("⚡ Stream", value=st.session_state.use_streaming, help="Stream responses token-by-token")
+        # Interruptor de streaming - siempre visible, controla si usar streaming
+        st.session_state.use_streaming = st.checkbox("⚡ Streaming", value=st.session_state.use_streaming, help="Transmitir respuestas token por token")
     
-    # Chat messages container
+    # Contenedor de mensajes del chat
     chat_container = st.container()
     
     with chat_container:
-        # Display all chat messages
+        # Mostrar todos los mensajes del chat
         for idx, message in enumerate(st.session_state.chat_messages):
             render_chat_message(message, idx)
     
-    # Input area at bottom
+    # Área de entrada en la parte inferior
     st.markdown("---")
     
-    # Query input
+    # Entrada de consulta
     col1, col2 = st.columns([6, 1])
     with col1:
         query = st.text_input(
-            "Type your question...",
-            placeholder="e.g., How many users do we have?",
+            "Escribe tu pregunta...",
+            placeholder="p. ej., ¿Cuántos usuarios tenemos?",
             label_visibility="collapsed",
             key="query_input",
             disabled=st.session_state.is_processing
         )
     with col2:
         send_button = st.button(
-            "📤 Send", 
+            "📤 Enviar", 
             type="primary", 
             width="stretch",
             disabled=st.session_state.is_processing or not query
         )
     
-    # Handle query submission
+    # Manejar envío de la consulta
     if send_button and query:
-        # Set processing state
+        # Establecer estado de procesamiento
         st.session_state.is_processing = True
         
-        # Add user message
+        # Añadir mensaje del usuario
         st.session_state.chat_messages.append({
             'type': 'user',
             'content': query,
             'timestamp': datetime.now()
         })
         
-        # Execute query - agent handles casual conversation automatically
+        # Ejecutar consulta - el agente gestiona automáticamente la conversación casual
         try:
-            # Determine session
+            # Determinar sesión
             session_obj = None
             if st.session_state.use_session:
                 if not st.session_state.current_session:
@@ -456,19 +456,19 @@ def render_query_interface():
                     )
                 session_obj = st.session_state.current_session.session
             
-            # Use streaming if user toggled it on
+            # Usar streaming si el usuario lo activó
             if st.session_state.use_streaming:
-                # Create a placeholder for streaming text in the chat area
+                # Crear placeholder para texto en streaming en el área de chat
                 streaming_placeholder = st.empty()
                 
-                # Stream the response with real-time display
+                # Transmitir la respuesta con visualización en tiempo real
                 streamed_text = ""
                 
                 async def stream_response():
                     nonlocal streamed_text
                     async for chunk in st.session_state.agent.query_stream(query, session=session_obj):
                         streamed_text += chunk
-                        # Display accumulated text in real-time
+                        # Mostrar texto acumulado en tiempo real
                         streaming_placeholder.markdown(
                             f'<div style="text-align: left; margin: 10px 0;">'
                             f'<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); '
@@ -478,34 +478,34 @@ def render_query_interface():
                             f'</div></div>',
                             unsafe_allow_html=True
                         )
-                        # Add artificial delay to slow down streaming (adjust as needed)
-                        await asyncio.sleep(0.03)  # 30ms delay per token
+                        # Añadir retraso artificial para ralentizar el streaming (ajustar si es necesario)
+                        await asyncio.sleep(0.03)  # 30ms de retraso por token
                     return streamed_text
                 
-                # Run streaming (statistics are tracked at agent level)
+                # Ejecutar streaming (las estadísticas se registran a nivel del agente)
                 final_response = asyncio.run(stream_response())
                 
-                # Clear the streaming placeholder
+                # Limpiar el placeholder de streaming
                 streaming_placeholder.empty()
                 
-                # Create result dict
+                # Crear diccionario de resultado
                 result = {
                     "natural_response": final_response,
                     "final_output": final_response
                 }
             else:
-                # Non-streaming query
-                with st.spinner("🤔 Thinking..."):
+                # Consulta sin streaming
+                with st.spinner("🤔 Pensando..."):
                     result = asyncio.run(st.session_state.agent.query(query, session=session_obj))
             
-            # Add AI response
+            # Añadir respuesta de la IA
             st.session_state.chat_messages.append({
                 'type': 'ai',
                 'result': result,
                 'timestamp': datetime.now()
             })
             
-            # Store in history (only if not casual)
+            # Guardar en historial (solo si no es conversación casual)
             if not result.get('is_casual', False):
                 st.session_state.query_history.insert(0, {
                     'timestamp': datetime.now(),
@@ -513,53 +513,53 @@ def render_query_interface():
                     'result': result
                 })
                 
-            # Reset processing state
+            # Restablecer estado de procesamiento
             st.session_state.is_processing = False
             
-            # Rerun to show new messages
+            # Reejecutar para mostrar nuevos mensajes
             st.rerun()
             
         except Exception as e:
             st.session_state.is_processing = False
             st.error(f"❌ Error: {str(e)}")
-            logger.error(f"Query error: {e}", exc_info=True)
+            logger.error(f"Error en la consulta: {e}", exc_info=True)
     
-    # Clear chat button
+    # Botón para limpiar chat
     if len(st.session_state.chat_messages) > 0:
-        if st.button("🗑️ Clear Chat", disabled=st.session_state.is_processing):
+        if st.button("🗑️ Limpiar chat", disabled=st.session_state.is_processing):
             st.session_state.chat_messages = []
             st.session_state.is_processing = False
             st.rerun()
 
 
 def display_query_result(result: dict):
-    """Display query result."""
+    """Mostrar el resultado de la consulta."""
     st.markdown("---")
-    st.markdown("### 📊 Results")
+    st.markdown("### 📊 Resultados")
     
-    # SQL Query
-    with st.expander("🔍 Generated SQL", expanded=True):
+    # Consulta SQL
+    with st.expander("🔍 SQL Generado", expanded=True):
         st.code(result.get('sql', 'N/A'), language='sql')
     
-    # Explanation
+    # Explicación
     if 'explanation' in result:
-        with st.expander("💡 Explanation"):
+        with st.expander("💡 Explicación"):
             st.markdown(result['explanation'])
     
-    # Confidence
+    # Confianza
     if 'confidence' in result:
         confidence = result['confidence']
         color = "green" if confidence > 0.8 else "orange" if confidence > 0.5 else "red"
-        st.markdown(f"**Confidence:** :{color}[{confidence:.1%}]")
+        st.markdown(f"**Confianza:** :{color}[{confidence:.1%}]")
     
-    # Results data
+    # Datos de resultados
     if 'results' in result and result['results']:
-        st.markdown("#### 📋 Data")
+        st.markdown("#### 📋 Datos")
         
-        # Convert to DataFrame
+        # Convertir a DataFrame
         results_data = result['results']
         if results_data:
-            # Get column names from first row or use generic names
+            # Obtener nombres de columnas de la primera fila o usar nombres genéricos
             if hasattr(results_data[0], '_fields'):
                 columns = results_data[0]._fields
             else:
@@ -567,29 +567,29 @@ def display_query_result(result: dict):
             
             df = pd.DataFrame(results_data, columns=columns)
             
-            # Display table
+            # Mostrar tabla
             st.dataframe(df, width="stretch")
             
-            # Download button
+            # Botón de descarga
             csv = df.to_csv(index=False)
             st.download_button(
-                label="📥 Download CSV",
+                label="📥 Descargar CSV",
                 data=csv,
                 file_name=f"query_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
                 mime="text/csv"
             )
             
-            # Visualization options
+            # Opciones de visualización
             if len(df) > 0 and len(df.columns) > 0:
-                with st.expander("📈 Visualize"):
-                    chart_type = st.selectbox("Chart Type", ["Bar Chart", "Line Chart", "Area Chart"])
+                with st.expander("📈 Visualizar"):
+                    chart_type = st.selectbox("Tipo de gráfico", ["Bar Chart", "Line Chart", "Area Chart"])
                     
-                    # Select columns for visualization
+                    # Seleccionar columnas para la visualización
                     numeric_cols = df.select_dtypes(include=['number']).columns.tolist()
                     
                     if numeric_cols:
-                        y_col = st.selectbox("Y-axis", numeric_cols)
-                        x_col = st.selectbox("X-axis (optional)", ["Index"] + df.columns.tolist())
+                        y_col = st.selectbox("Eje Y", numeric_cols)
+                        x_col = st.selectbox("Eje X (opcional)", ["Index"] + df.columns.tolist())
                         
                         if x_col == "Index":
                             chart_data = df[[y_col]]
@@ -603,48 +603,48 @@ def display_query_result(result: dict):
                         elif chart_type == "Area Chart":
                             st.area_chart(chart_data)
     
-    # Natural language response
+    # Respuesta en lenguaje natural
     if 'natural_response' in result:
-        st.markdown("#### 💬 Answer")
+        st.markdown("#### 💬 Respuesta")
         st.info(result['natural_response'])
 
 
 def render_query_history():
-    """Render query history."""
+    """Renderizar el historial de consultas."""
     if not st.session_state.query_history:
-        st.info("ℹ️ No queries yet. Start asking questions!")
+        st.info("ℹ️ Aún no hay consultas. ¡Empieza a hacer preguntas!")
         return
     
-    st.markdown("### 🕒 Query History")
+    st.markdown("### 🕒 Historial de Consultas")
     
-    for idx, item in enumerate(st.session_state.query_history[:10]):  # Show last 10
+    for idx, item in enumerate(st.session_state.query_history[:10]):  # Mostrar las últimas 10
         with st.expander(f"**{item['question'][:50]}...** - {item['timestamp'].strftime('%H:%M:%S')}"):
-            st.markdown(f"**Question:** {item['question']}")
+            st.markdown(f"**Pregunta:** {item['question']}")
             
-            # Show agent's natural response
-            natural_response = item['result'].get('natural_response', 'No response available')
-            st.markdown(f"**Answer:** {natural_response}")
+            # Mostrar la respuesta natural del agente
+            natural_response = item['result'].get('natural_response', 'No hay respuesta disponible')
+            st.markdown(f"**Respuesta:** {natural_response}")
             
-            # Show execution time if available
+            # Mostrar tiempo de ejecución si está disponible
             if 'execution_time' in item['result']:
-                st.caption(f"⚡ Executed in {item['result']['execution_time']:.2f}s")
+                st.caption(f"⚡ Ejecutado en {item['result']['execution_time']:.2f}s")
 
 
 def main():
-    """Main application."""
+    """Aplicación principal."""
     init_session_state()
     
-    # Header
-    st.markdown('<div class="main-header">🤖 DB Query Agent Demo</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Natural Language Database Queries with AI</div>', unsafe_allow_html=True)
+    # Encabezado
+    st.markdown('<div class="main-header">🤖 Demo del Agente de Consultas a BD</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">Consultas a bases de datos en lenguaje natural con IA</div>', unsafe_allow_html=True)
     
-    # Sidebar
+    # Barra lateral
     sidebar_config()
     
-    # Main content
+    # Contenido principal
     if st.session_state.connected:
-        # Tabs
-        tab1, tab2, tab3 = st.tabs(["💬 Query", "📚 Schema", "🕒 History"])
+        # Pestañas
+        tab1, tab2, tab3 = st.tabs(["💬 Consulta", "📚 Esquema", "🕒 Historial"])
         
         with tab1:
             render_query_interface()
@@ -655,58 +655,58 @@ def main():
         with tab3:
             render_query_history()
     else:
-        # Welcome screen
+        # Pantalla de bienvenida
         st.markdown("""
-        ## 👋 Welcome!
+        ## 👋 ¡Bienvenido!
         
-        This demo showcases the **db-query-agent** package - an AI-powered natural language interface for databases.
+        Esta demo muestra el paquete **db-query-agent** — una interfaz de lenguaje natural para bases de datos impulsada por IA.
         
-        ### 🚀 Getting Started
+        ### 🚀 Primeros pasos
         
-        1. **Create** a `demo/.env` file with your credentials:
+        1. **Crea** un archivo `demo/.env` con tus credenciales:
            ```
            DATABASE_URL=sqlite:///./demo_database.db
            OPENAI_API_KEY=sk-your-key-here
            ```
-        2. **Click** Connect in the sidebar
-        3. **Start** asking questions in natural language!
+        2. **Haz clic** en Conectar en la barra lateral
+        3. **Empieza** a hacer preguntas en lenguaje natural
         
-        ### ✨ Features
+        ### ✨ Funcionalidades
         
-        - 🤖 **Natural Language Queries** - Ask questions in plain English
-        - 🔒 **Read-Only Mode** - Safe querying without data modification
-        - 💾 **Smart Caching** - Fast repeated queries
-        - 📊 **Schema Browser** - Explore your database structure
-        - 📈 **Visualizations** - Automatic chart generation
-        - 🕒 **Query History** - Track your queries
-        - 💬 **Session Support** - Conversational context
+        - 🤖 **Consultas en lenguaje natural** — Haz preguntas en lenguaje sencillo
+        - 🔒 **Modo solo lectura** — Consultas seguras sin modificar datos
+        - 💾 **Caché inteligente** — Consultas repetidas más rápidas
+        - 📊 **Explorador de esquema** — Explora la estructura de tu base de datos
+        - 📈 **Visualizaciones** — Generación automática de gráficos
+        - 🕒 **Historial de consultas** — Seguimiento de tus consultas
+        - 💬 **Soporte de sesión** — Contexto conversacional
         
-        ### 📚 Example Questions
+        ### 📚 Ejemplos de preguntas
         
-        - "How many users do we have?"
-        - "Show me the top 10 products by revenue"
-        - "What's the average order value this month?"
-        - "List all active customers"
-        - "Find orders over $1000"
+        - "¿Cuántos usuarios tenemos?"
+        - "Muéstrame los 10 productos con mayor ingreso"
+        - "¿Cuál es el valor promedio de pedido este mes?"
+        - "Lista todos los clientes activos"
+        - "Encuentra pedidos superiores a $1000"
         
-        ### 🔐 Security
+        ### 🔐 Seguridad
         
-        - All queries are validated before execution
-        - Read-only mode prevents data modification
-        - SSL/TLS support for secure connections
-        - No data is stored or transmitted outside your environment
+        - Todas las consultas se validan antes de ejecutarse
+        - El modo solo lectura evita la modificación de datos
+        - Soporte SSL/TLS para conexiones seguras
+        - Ningún dato se almacena ni se transmite fuera de tu entorno
         """)
         
-        # Quick start example
-        with st.expander("🎯 Quick Start - Create demo/.env"):
-            st.markdown("**1. Create the file:**")
+        # Ejemplo de inicio rápido
+        with st.expander("🎯 Inicio rápido - Crear demo/.env"):
+            st.markdown("**1. Crea el archivo:**")
             st.code("demo/.env", language="bash")
             
-            st.markdown("**2. Add your credentials:**")
+            st.markdown("**2. Añade tus credenciales:**")
             st.code("""DATABASE_URL=sqlite:///./demo_database.db
 OPENAI_API_KEY=sk-your-key-here""", language="bash")
             
-            st.markdown("**3. Restart the app and click Connect!**")
+            st.markdown("**3. ¡Reinicia la app y haz clic en Conectar!**")
 
 
 if __name__ == "__main__":

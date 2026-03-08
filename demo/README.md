@@ -1,19 +1,19 @@
-# 🤖 DB Query Agent - Streamlit Demo
+# 🤖 DB Query Agent - Demo de Streamlit
 
-Interactive demo application for the `db-query-agent` package.
+Aplicación de demostración interactiva para el paquete `db-agent-sql`.
 
-## 🚀 Quick Start
+## 🚀 Inicio rápido
 
-### 1. Install Dependencies
+### 1. Instalar dependencias
 
 ```bash
-# From the project root
+# Desde la raíz del proyecto
 uv pip install -e ".[dev]"
 ```
 
-### 2. Set Up Environment
+### 2. Configurar el entorno
 
-**Important:** Create a `.env` file in the demo directory (credentials are read from here, not the UI):
+**Importante:** Crea un archivo `.env` en el directorio de la demo (las credenciales se leen desde aquí, no desde la UI):
 
 ```bash
 # demo/.env
@@ -21,66 +21,66 @@ OPENAI_API_KEY=sk-your-openai-api-key-here
 DATABASE_URL=sqlite:///./demo_database.db
 ```
 
-**Note:** The demo app reads credentials from the `.env` file for security. You won't enter them in the UI.
+**Nota:** La aplicación de demostración lee las credenciales desde el archivo `.env` por seguridad. No tendrás que introducirlas en la UI.
 
-### 3. Create Demo Database (Optional)
+### 3. Crear base de datos de demostración (opcional)
 
 ```bash
 python demo/create_demo_db.py
 ```
 
-This creates a SQLite database with sample data (users, orders, products).
+Esto crea una base de datos SQLite con datos de ejemplo (usuarios, pedidos, productos).
 
-### 4. Run the Demo
+### 4. Ejecutar la demo
 
 ```bash
 streamlit run demo/streamlit_app.py
 ```
 
-The app will open in your browser at `http://localhost:8501`
+La aplicación se abrirá en tu navegador en `http://localhost:8501`
 
 ---
 
-## ✨ Features
+## ✨ Características
 
-### 💬 Natural Language Query Interface
-- Ask questions in plain English
-- Get SQL queries automatically generated
-- View results in tables
-- Download results as CSV
+### 💬 Interfaz de consultas en lenguaje natural
+- Haz preguntas en inglés sencillo
+- Obtén consultas SQL generadas automáticamente
+- Visualiza los resultados en tablas
+- Descarga los resultados como CSV
 
-### 📚 Schema Browser
-- Explore database tables
-- View column types and constraints
-- See foreign key relationships
-- Check indexes
+### 📚 Explorador de esquema
+- Explora las tablas de la base de datos
+- Visualiza tipos de columnas y restricciones
+- Observa relaciones de claves foráneas
+- Consulta índices
 
-### 📊 Visualizations
-- Automatic chart generation
-- Bar, line, and area charts
-- Interactive data exploration
+### 📊 Visualizaciones
+- Generación automática de gráficos
+- Gráficos de barras, líneas y áreas
+- Exploración interactiva de datos
 
-### 🕒 Query History
-- Track all your queries
-- Review past results
-- Reuse successful queries
+### 🕒 Historial de consultas
+- Registra todas tus consultas
+- Revisa resultados anteriores
+- Reutiliza consultas exitosas
 
-### 💬 Session Support
-- Maintain conversation context
-- Ask follow-up questions
-- Reference previous queries
+### 💬 Soporte de sesión
+- Mantiene el contexto de la conversación
+- Permite hacer preguntas de seguimiento
+- Hace referencia a consultas anteriores
 
-### 📈 Statistics Dashboard
-- Total queries executed
-- Cache hit rate
-- Success/failure metrics
-- Performance stats
+### 📈 Panel de estadísticas
+- Total de consultas ejecutadas
+- Tasa de aciertos de caché
+- Métricas de éxito/fallo
+- Estadísticas de rendimiento
 
 ---
 
-## 🎯 Example Queries
+## 🎯 Ejemplos de consultas
 
-Try these natural language questions:
+Prueba estas preguntas en lenguaje natural:
 
 ```
 How many users do we have?
@@ -95,11 +95,11 @@ Show me monthly revenue trends
 
 ---
 
-## 🔧 Configuration Options
+## 🔧 Opciones de configuración
 
-### Database Connection
+### Conexión a base de datos
 
-Supports multiple database types:
+Compatible con múltiples tipos de base de datos:
 
 ```bash
 # SQLite
@@ -115,89 +115,89 @@ DATABASE_URL=mysql+pymysql://user:pass@localhost:3306/dbname
 DATABASE_URL=mssql+pyodbc://user:pass@localhost/dbname?driver=ODBC+Driver+17+for+SQL+Server
 ```
 
-### Advanced Options
+### Opciones avanzadas
 
-- **Read-Only Mode**: Prevents data modification (recommended)
-- **Caching**: Speeds up repeated queries
-- **Model Strategy**: 
-  - `adaptive`: Automatically choose model based on complexity
-  - `fixed`: Use same model for all queries
-
----
-
-## 🔒 Security
-
-### Best Practices
-
-1. **Use Read-Only Mode** (enabled by default)
-2. **Use Read-Only Database User**
-3. **Don't commit API keys** (use `.env` file)
-4. **Restrict table access** if needed
-5. **Enable SSL** for remote databases
-
-### Safe by Default
-
-- All queries validated before execution
-- Dangerous keywords blocked (DROP, DELETE, etc.)
-- Read-only mode prevents modifications
-- SSL/TLS support for secure connections
+- **Modo solo lectura**: Evita la modificación de datos (recomendado)
+- **Caché**: Acelera consultas repetidas
+- **Estrategia de modelo**: 
+  - `adaptive`: Elige automáticamente el modelo según la complejidad
+  - `fixed`: Usa el mismo modelo para todas las consultas
 
 ---
 
-## 📸 Screenshots
+## 🔒 Seguridad
 
-### Main Query Interface
+### Buenas prácticas
+
+1. **Usar modo solo lectura** (habilitado por defecto)
+2. **Usar un usuario de base de datos de solo lectura**
+3. **No subir claves API al repositorio** (usa archivo `.env`)
+4. **Restringir acceso a tablas** si es necesario
+5. **Habilitar SSL** para bases de datos remotas
+
+### Seguro por defecto
+
+- Todas las consultas se validan antes de ejecutarse
+- Palabras clave peligrosas bloqueadas (DROP, DELETE, etc.)
+- El modo solo lectura evita modificaciones
+- Soporte SSL/TLS para conexiones seguras
+
+---
+
+## 📸 Capturas de pantalla
+
+### Interfaz principal de consulta
 ![Query Interface](./screenshots/query_interface.png)
 
-### Schema Browser
+### Explorador de esquema
 ![Schema Browser](./screenshots/schema_browser.png)
 
-### Results Visualization
+### Visualización de resultados
 ![Visualization](./screenshots/visualization.png)
 
 ---
 
-## 🐛 Troubleshooting
+## 🐛 Solución de problemas
 
-### Connection Issues
+### Problemas de conexión
 
-**Problem**: "Connection failed"
-- Check database URL format
-- Verify database is running
-- Check network connectivity
-- Verify credentials
+**Problema**: "Connection failed"
+- Comprueba el formato de la URL de la base de datos
+- Verifica que la base de datos esté en ejecución
+- Comprueba la conectividad de red
+- Verifica las credenciales
 
-**Problem**: "SSL connection failed"
-- Add `?sslmode=disable` for local databases
-- Check SSL certificate paths
-- See [SSL_CONFIGURATION.md](../SSL_CONFIGURATION.md)
+**Problema**: "SSL connection failed"
+- Añade `?sslmode=disable` para bases de datos locales
+- Comprueba las rutas de los certificados SSL
+- Consulta [SSL_CONFIGURATION.md](../SSL_CONFIGURATION.md)
 
-### Query Issues
+### Problemas de consulta
 
-**Problem**: "Query validation failed"
-- Check if query is SELECT-only (read-only mode)
-- Verify table names exist
-- Check for dangerous keywords
+**Problema**: "Query validation failed"
+- Comprueba si la consulta es solo SELECT (modo solo lectura)
+- Verifica que los nombres de tabla existan
+- Comprueba si hay palabras clave peligrosas
 
-**Problem**: "No results returned"
-- Verify data exists in tables
-- Check query logic
-- Review generated SQL
+**Problema**: "No results returned"
+- Verifica que existan datos en las tablas
+- Comprueba la lógica de la consulta
+- Revisa el SQL generado
 
-### API Issues
+### Problemas de API
 
-**Problem**: "OpenAI API error"
-- Verify API key is correct
-- Check API key has credits
-- Check network connectivity
+**Problema**: "OpenAI API error"
+- Verifica que la clave API sea correcta
+- Comprueba que la clave tenga créditos
+- Comprueba la conectividad de red
 
 ---
 
-## 🎨 Customization
+## 🎨 Personalización
 
-### Modify UI Theme
+### Modificar el tema de la UI
 
-Edit `streamlit_app.py` CSS section:
+Edita la sección CSS de `streamlit_app.py`:
 
 ```python
 st.markdown("""
@@ -209,19 +209,19 @@ st.markdown("""
 """, unsafe_allow_html=True)
 ```
 
-### Add Custom Features
+### Añadir funciones personalizadas
 
-The demo is modular - add your own tabs or features:
+La demo es modular: añade tus propias pestañas o funciones:
 
 ```python
 with st.tabs(["Query", "Schema", "History", "Your Feature"]):
-    # Your custom code
+    # Tu código personalizado
     pass
 ```
 
 ---
 
-## 📚 Learn More
+## 📚 Saber más
 
 - [Main README](../README.md)
 - [API Documentation](../docs/API.md)
@@ -230,12 +230,12 @@ with st.tabs(["Query", "Schema", "History", "Your Feature"]):
 
 ---
 
-## 🤝 Contributing
+## 🤝 Contribuciones
 
-Found a bug or have a feature request? Open an issue!
+¿Encontraste un bug o tienes una solicitud de funcionalidad? ¡Abre un issue!
 
 ---
 
-## 📄 License
+## 📄 Licencia
 
-Same as the main package.
+La misma que el paquete principal.
