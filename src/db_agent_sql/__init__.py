@@ -1,5 +1,5 @@
 """
-db-query-agent: AI-powered natural language database query system.
+db-agent-sql: AI-powered natural language database query system.
 
 A Python package that enables natural language querying of databases using OpenAI Agents SDK.
 
