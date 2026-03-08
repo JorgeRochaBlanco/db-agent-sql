@@ -711,3 +711,4 @@ OPENAI_API_KEY=sk-your-key-here""", language="bash")
 
 if __name__ == "__main__":
     main()
+cl
