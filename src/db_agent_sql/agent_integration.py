@@ -4,10 +4,10 @@ import logging
 from typing import Any, Dict, Optional, AsyncIterator
 from pydantic import BaseModel
 from agents import Agent, Runner, function_tool, RunContextWrapper, ModelSettings
-from db_query_agent.connection_manager import ConnectionManager
-from db_query_agent.schema_extractor import SchemaExtractor
-from db_query_agent.query_validator import QueryValidator, ValidationResult
-from db_query_agent.config import ModelConfig, SafetyConfig
+from db_agent_sql.connection_manager import ConnectionManager
+from db_agent_sql.schema_extractor import SchemaExtractor
+from db_agent_sql.query_validator import QueryValidator, ValidationResult
+from db_agent_sql.config import ModelConfig, SafetyConfig
 
 logger = logging.getLogger(__name__)
 

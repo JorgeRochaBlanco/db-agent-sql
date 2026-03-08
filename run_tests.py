@@ -48,7 +48,7 @@ def run_tests(test_type="all"):
         cmd = [
             "pytest",
             "tests/",
-            "--cov=db_query_agent",
+            "--cov=db_agent_sql",
             "--cov-report=html",
             "--cov-report=term",
             "-v"

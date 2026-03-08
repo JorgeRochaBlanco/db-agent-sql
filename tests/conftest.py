@@ -3,11 +3,11 @@
 import pytest
 import os
 from sqlalchemy import create_engine, text
-from db_query_agent.config import DatabaseConfig, CacheConfig, ModelConfig, SafetyConfig
-from db_query_agent.connection_manager import ConnectionManager
-from db_query_agent.schema_extractor import SchemaExtractor
-from db_query_agent.cache_manager import CacheManager
-from db_query_agent.query_validator import QueryValidator
+from db_agent_sql.config import DatabaseConfig, CacheConfig, ModelConfig, SafetyConfig
+from db_agent_sql.connection_manager import ConnectionManager
+from db_agent_sql.schema_extractor import SchemaExtractor
+from db_agent_sql.cache_manager import CacheManager
+from db_agent_sql.query_validator import QueryValidator
 
 
 @pytest.fixture

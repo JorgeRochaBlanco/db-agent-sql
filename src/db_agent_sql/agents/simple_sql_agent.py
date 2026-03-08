@@ -4,13 +4,13 @@ import logging
 from pydantic import BaseModel
 from typing import Optional, List, Any
 from agents import Agent, ModelSettings
-from db_query_agent.tools.sql_tools import (
+from db_agent_sql.tools.sql_tools import (
     get_schema_tool,
     get_relevant_tables_tool,
     validate_query_tool,
     execute_query_tool,
 )
-from db_query_agent.agent_integration import DatabaseContext
+from db_agent_sql.agent_integration import DatabaseContext
 
 logger = logging.getLogger(__name__)
 

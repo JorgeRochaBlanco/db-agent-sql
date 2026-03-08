@@ -159,7 +159,7 @@ def connect_to_database(**kwargs) -> bool:
     The agent will load credentials from .env by default, with overrides from kwargs.
     """
     try:
-        from db_query_agent import DatabaseQueryAgent
+        from db_agent_sql import DatabaseQueryAgent      #db_agent_sql    db_agent_sql
         
         # Use from_env() which loads from .env and allows overrides
         st.session_state.agent = DatabaseQueryAgent.from_env(

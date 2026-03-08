@@ -1,7 +1,7 @@
 """Tools for simple multi-agent system."""
 
-from db_query_agent.tools.conversation_tools import get_current_time
-from db_query_agent.tools.sql_tools import (
+from db_agent_sql.tools.conversation_tools import get_current_time
+from db_agent_sql.tools.sql_tools import (
     get_schema_tool,
     get_relevant_tables_tool,
     validate_query_tool,

@@ -4,8 +4,8 @@ from typing import Any, List, Tuple
 from sqlalchemy import create_engine, text, Engine
 from sqlalchemy.pool import QueuePool
 from sqlalchemy.exc import SQLAlchemyError
-from db_query_agent.exceptions import ConnectionError, QueryExecutionError
-from db_query_agent.config import DatabaseConfig
+from db_agent_sql.exceptions import ConnectionError, QueryExecutionError
+from db_agent_sql.config import DatabaseConfig
 import logging
 import asyncio
 

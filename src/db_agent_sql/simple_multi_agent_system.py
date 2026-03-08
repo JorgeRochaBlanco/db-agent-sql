@@ -4,10 +4,10 @@ import logging
 from typing import Dict, Any, Optional, AsyncIterator
 from agents import Agent, Runner
 from openai.types.responses import ResponseTextDeltaEvent
-from db_query_agent.agents.simple_sql_agent import SimpleSQLAgent
-from db_query_agent.agents.simple_conversational_agent import SimpleConversationalAgent
-from db_query_agent.agent_integration import DatabaseContext
-from db_query_agent.config import ModelConfig
+from db_agent_sql.agents.simple_sql_agent import SimpleSQLAgent
+from db_agent_sql.agents.simple_conversational_agent import SimpleConversationalAgent
+from db_agent_sql.agent_integration import DatabaseContext
+from db_agent_sql.config import ModelConfig
 
 logger = logging.getLogger(__name__)
 

@@ -21,7 +21,7 @@ The main interface for natural language database querying.
 ### Class: `DatabaseQueryAgent`
 
 ```python
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 ```
 
 #### Constructor
@@ -544,7 +544,7 @@ Wrapper for chat-like interface with session.
 ### Class: `ChatSession`
 
 ```python
-from db_query_agent import ChatSession
+from db_agent_sql import ChatSession
 ```
 
 #### Constructor
@@ -609,7 +609,7 @@ await session.clear()
 ### DatabaseConfig
 
 ```python
-from db_query_agent import DatabaseConfig
+from db_agent_sql import DatabaseConfig
 
 config = DatabaseConfig(
     url="postgresql://user:pass@localhost/db",
@@ -625,7 +625,7 @@ config = DatabaseConfig(
 ### CacheConfig
 
 ```python
-from db_query_agent import CacheConfig
+from db_agent_sql import CacheConfig
 
 config = CacheConfig(
     enabled=True,
@@ -640,7 +640,7 @@ config = CacheConfig(
 ### ModelConfig
 
 ```python
-from db_query_agent import ModelConfig
+from db_agent_sql import ModelConfig
 
 config = ModelConfig(
     strategy="adaptive",  # or "fixed"
@@ -655,7 +655,7 @@ config = ModelConfig(
 ### SafetyConfig
 
 ```python
-from db_query_agent import SafetyConfig
+from db_agent_sql import SafetyConfig
 
 config = SafetyConfig(
     read_only=True,
@@ -670,7 +670,7 @@ config = SafetyConfig(
 ### AgentConfig
 
 ```python
-from db_query_agent import AgentConfig, DatabaseConfig, CacheConfig
+from db_agent_sql import AgentConfig, DatabaseConfig, CacheConfig
 
 config = AgentConfig(
     openai_api_key="sk-...",
@@ -695,7 +695,7 @@ All exceptions inherit from `DatabaseQueryAgentError`.
 Base exception for all db-query-agent errors.
 
 ```python
-from db_query_agent import DatabaseQueryAgentError
+from db_agent_sql import DatabaseQueryAgentError
 
 try:
     result = await agent.query("invalid query")
@@ -708,7 +708,7 @@ except DatabaseQueryAgentError as e:
 Raised when query validation fails.
 
 ```python
-from db_query_agent import ValidationError
+from db_agent_sql import ValidationError
 
 try:
     result = await agent.query("DROP TABLE users")
@@ -721,7 +721,7 @@ except ValidationError as e:
 Raised when query execution fails.
 
 ```python
-from db_query_agent import QueryExecutionError
+from db_agent_sql import QueryExecutionError
 
 try:
     result = await agent.query("SELECT * FROM nonexistent_table")
@@ -734,7 +734,7 @@ except QueryExecutionError as e:
 Raised when schema extraction fails.
 
 ```python
-from db_query_agent import SchemaExtractionError
+from db_agent_sql import SchemaExtractionError
 ```
 
 ---
@@ -746,7 +746,7 @@ from db_query_agent import SchemaExtractionError
 Get environment variable with optional default.
 
 ```python
-from db_query_agent.config import get_env
+from db_agent_sql.config import get_env
 
 api_key = get_env("OPENAI_API_KEY")
 db_url = get_env("DATABASE_URL", "sqlite:///:memory:")
@@ -758,7 +758,7 @@ db_url = get_env("DATABASE_URL", "sqlite:///:memory:")
 
 ```python
 import asyncio
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 async def main():
     # Create agent from .env

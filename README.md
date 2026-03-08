@@ -45,7 +45,7 @@ READ_ONLY=true
 ```
 
 ```python
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 # Load everything from .env
 agent = DatabaseQueryAgent.from_env()
@@ -60,7 +60,7 @@ agent = DatabaseQueryAgent.from_env(
 **Option 2: Direct Configuration**
 
 ```python
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 # Pass all parameters directly
 agent = DatabaseQueryAgent(
@@ -158,7 +158,7 @@ print(f"Total sessions: {stats['sessions']['total_sessions']}")
 ```python
 # views.py
 from django.conf import settings
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 agent = DatabaseQueryAgent(
     database_url=settings.DATABASES['default']['URL'],
@@ -176,7 +176,7 @@ def query_database(request):
 ```python
 # main.py
 from fastapi import FastAPI
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 app = FastAPI()
 agent = DatabaseQueryAgent(database_url=os.getenv("DATABASE_URL"))
@@ -191,7 +191,7 @@ async def query_db(question: str):
 ```python
 # app.py
 from flask import Flask, request
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 app = Flask(__name__)
 agent = DatabaseQueryAgent(database_url=os.getenv("DATABASE_URL"))
@@ -250,7 +250,7 @@ agent = DatabaseQueryAgent.from_env()
 Pass parameters directly (overrides .env):
 
 ```python
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 agent = DatabaseQueryAgent(
     database_url="postgresql://...",
@@ -375,7 +375,7 @@ streamlit run demo/streamlit_app.py
 
 ```
 db-query-agent/
-├── src/db_query_agent/          # Main package source code
+├── src/db_agent_sql/          # Main package source code
 │   ├── __init__.py
 │   ├── agent.py                 # DatabaseQueryAgent - main interface
 │   ├── simple_multi_agent_system.py  # Multi-agent orchestration

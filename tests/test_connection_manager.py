@@ -1,8 +1,8 @@
 """Tests for connection_manager module."""
 
 import pytest
-from db_query_agent.connection_manager import ConnectionManager
-from db_query_agent.exceptions import QueryExecutionError
+from db_agent_sql.connection_manager import ConnectionManager
+from db_agent_sql.exceptions import QueryExecutionError
 
 
 class TestConnectionManager:

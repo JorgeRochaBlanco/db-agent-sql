@@ -4,7 +4,7 @@ import time
 from typing import Dict, List, Any, Optional
 from sqlalchemy import create_engine, inspect, MetaData, Engine
 from sqlalchemy.engine import Inspector
-from db_query_agent.exceptions import SchemaExtractionError
+from db_agent_sql.exceptions import SchemaExtractionError
 import logging
 
 logger = logging.getLogger(__name__)

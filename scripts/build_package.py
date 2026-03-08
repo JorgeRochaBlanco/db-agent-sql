@@ -35,7 +35,7 @@ def clean_build_dirs():
     """Clean previous build artifacts."""
     print("\n🧹 Cleaning previous builds...")
     
-    dirs_to_clean = ['build', 'dist', 'src/db_query_agent.egg-info']
+    dirs_to_clean = ['build', 'dist', 'src/db_agent_sql.egg-info', 'src/db_agent_sql.egg-info']
     
     for dir_name in dirs_to_clean:
         dir_path = Path(dir_name)
@@ -111,7 +111,7 @@ def list_dist_files():
 def main():
     """Main build process."""
     print("\n" + "="*60)
-    print("🚀 DB Query Agent - Package Builder")
+    print("🚀 DB SQL Agent - Construcción del package")
     print("="*60)
     
     # Step 1: Check dependencies

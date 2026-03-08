@@ -1,7 +1,7 @@
 """Tests for query_validator module."""
 
 import pytest
-from db_query_agent.query_validator import QueryValidator, ValidationResult
+from db_agent_sql.query_validator import QueryValidator, ValidationResult
 
 
 class TestQueryValidator:

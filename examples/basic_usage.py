@@ -5,7 +5,7 @@ This file demonstrates the most common use cases.
 """
 
 import asyncio
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 
 async def example_1_simple_query():

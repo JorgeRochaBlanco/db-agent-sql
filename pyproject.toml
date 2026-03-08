@@ -70,7 +70,7 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["db_query_agent*"]
+include = ["db_agent_sql*"]
 
 [tool.black]
 line-length = 100

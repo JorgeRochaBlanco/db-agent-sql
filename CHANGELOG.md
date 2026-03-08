@@ -26,8 +26,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - **Package structure issue** - Fixed missing subpackages in PyPI distribution
   - Changed from explicit `packages` list to `setuptools.packages.find`
-  - Now correctly includes `db_query_agent.agents` and `db_query_agent.tools` subpackages
-  - Resolves `ModuleNotFoundError: No module named 'db_query_agent.agents'`
+  - Now correctly includes `db_agent_sql.agents` and `db_agent_sql.tools` subpackages
+  - Resolves `ModuleNotFoundError: No module named 'db_agent_sql.agents'`
 - **Documentation updates** - Updated GitHub repository links from placeholder to actual repo
 - **README improvements** - Cleaned up PyPI documentation
   - Removed internal development resources (Technical Plan, Packaging Guide, etc.)

@@ -3,8 +3,8 @@
 import pytest
 import os
 from unittest.mock import patch, MagicMock
-from db_query_agent import DatabaseQueryAgent
-from db_query_agent.config import (
+from db_agent_sql import DatabaseQueryAgent
+from db_agent_sql.config import (
     AgentConfig,
     DatabaseConfig,
     CacheConfig,

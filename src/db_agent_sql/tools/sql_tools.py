@@ -3,7 +3,7 @@
 import logging
 from typing import Any
 from agents import function_tool, RunContextWrapper
-from db_query_agent.agent_integration import DatabaseContext
+from db_agent_sql.agent_integration import DatabaseContext
 
 logger = logging.getLogger(__name__)
 

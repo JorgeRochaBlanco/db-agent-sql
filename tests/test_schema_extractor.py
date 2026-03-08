@@ -2,8 +2,8 @@
 
 import pytest
 import time
-from db_query_agent.schema_extractor import SchemaExtractor
-from db_query_agent.exceptions import SchemaExtractionError
+from db_agent_sql.schema_extractor import SchemaExtractor
+from db_agent_sql.exceptions import SchemaExtractionError
 
 
 class TestSchemaExtractor:

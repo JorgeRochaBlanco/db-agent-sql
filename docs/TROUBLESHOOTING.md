@@ -18,7 +18,7 @@ Common issues and solutions for `db-query-agent`.
 
 ## Installation Issues
 
-### Issue: `ModuleNotFoundError: No module named 'db_query_agent'`
+### Issue: `ModuleNotFoundError: No module named 'db_agent_sql'`
 
 **Cause:** Package not installed or installed in wrong environment.
 
@@ -40,10 +40,10 @@ pip install -e .
 
 ```python
 # Correct import
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 # Not this
-from db_query_agent.agent import DatabaseQueryAgent  # Wrong
+from db_agent_sql.agent import DatabaseQueryAgent  # Wrong
 ```
 
 Update package:
@@ -611,7 +611,7 @@ agent = DatabaseQueryAgent.from_env(
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| `No module named 'db_query_agent'` | Not installed | `pip install db-query-agent` |
+| `No module named 'db_agent_sql'` | Not installed | `pip install db-query-agent` |
 | `ConnectionError: Failed to create database engine` | Invalid DB URL | Check database URL format |
 | `ValidationError: Query validation failed` | Safety violation | Check read_only mode and allowed tables |
 | `QueryExecutionError: Query execution failed` | Invalid SQL | Check generated SQL |

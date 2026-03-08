@@ -2,7 +2,7 @@
 
 import pytest
 import os
-from db_query_agent.config import (
+from db_agent_sql.config import (
     DatabaseConfig,
     CacheConfig,
     ModelConfig,

@@ -2,7 +2,7 @@
 
 import pytest
 import time
-from db_query_agent.cache_manager import CacheManager
+from db_agent_sql.cache_manager import CacheManager
 
 
 class TestCacheManager:

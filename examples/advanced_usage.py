@@ -5,7 +5,7 @@ This file demonstrates advanced features and patterns.
 """
 
 import asyncio
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 from typing import List, Dict, Any
 import time
 

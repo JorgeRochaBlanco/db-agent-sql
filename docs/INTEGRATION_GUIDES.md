@@ -32,11 +32,11 @@ pip install db-query-agent
 # Add to INSTALLED_APPS
 INSTALLED_APPS = [
     # ... other apps
-    'db_query_agent',
+    'db_agent_sql',
 ]
 
 # Database Query Agent Configuration
-DB_QUERY_AGENT = {
+db_agent_sql = {
     'DATABASE_URL': 'postgresql://user:pass@localhost/mydb',
     'OPENAI_API_KEY': os.getenv('OPENAI_API_KEY'),
     'ENABLE_CACHE': True,
@@ -50,7 +50,7 @@ DB_QUERY_AGENT = {
 ```python
 # myapp/services/query_agent.py
 
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 from django.conf import settings
 
 class QueryAgentService:
@@ -60,7 +60,7 @@ class QueryAgentService:
     def get_instance(cls):
         """Singleton pattern for agent instance."""
         if cls._instance is None:
-            config = settings.DB_QUERY_AGENT
+            config = settings.db_agent_sql
             cls._instance = DatabaseQueryAgent(
                 database_url=config['DATABASE_URL'],
                 openai_api_key=config['OPENAI_API_KEY'],
@@ -233,7 +233,7 @@ pip install db-query-agent flask
 # app.py
 
 from flask import Flask, request, jsonify, Response, stream_with_context
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 import asyncio
 import json
 import os
@@ -387,7 +387,7 @@ pip install db-query-agent fastapi uvicorn
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 from typing import Optional
 import json
 import os
@@ -567,7 +567,7 @@ pip install db-query-agent streamlit
 
 import streamlit as st
 import asyncio
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 # Page config
 st.set_page_config(
@@ -682,7 +682,7 @@ pip install db-query-agent jupyter
 
 ```python
 # Cell 1: Setup
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 import asyncio
 from IPython.display import display, Markdown
 

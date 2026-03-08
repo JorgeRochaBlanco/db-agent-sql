@@ -5,15 +5,15 @@ import time
 import os
 from typing import Dict, Any, Optional, AsyncIterator
 from sqlalchemy import create_engine
-from db_query_agent.config import AgentConfig, DatabaseConfig, CacheConfig, ModelConfig, SafetyConfig, get_env
-from db_query_agent.schema_extractor import SchemaExtractor
-from db_query_agent.cache_manager import CacheManager
-from db_query_agent.connection_manager import ConnectionManager
-from db_query_agent.query_validator import QueryValidator
-from db_query_agent.agent_integration import DatabaseContext
-from db_query_agent.session_manager import SessionManager, ChatSession
-from db_query_agent.simple_multi_agent_system import SimpleMultiAgentSystem
-from db_query_agent.exceptions import DatabaseQueryAgentError
+from db_agent_sql.config import AgentConfig, DatabaseConfig, CacheConfig, ModelConfig, SafetyConfig, get_env
+from db_agent_sql.schema_extractor import SchemaExtractor
+from db_agent_sql.cache_manager import CacheManager
+from db_agent_sql.connection_manager import ConnectionManager
+from db_agent_sql.query_validator import QueryValidator
+from db_agent_sql.agent_integration import DatabaseContext
+from db_agent_sql.session_manager import SessionManager, ChatSession
+from db_agent_sql.simple_multi_agent_system import SimpleMultiAgentSystem
+from db_agent_sql.exceptions import DatabaseQueryAgentError
 
 logger = logging.getLogger(__name__)
 

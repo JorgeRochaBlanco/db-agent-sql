@@ -2,8 +2,8 @@
 
 import logging
 from agents import Agent, ModelSettings
-from db_query_agent.tools.conversation_tools import get_current_time
-from db_query_agent.agent_integration import DatabaseContext
+from db_agent_sql.tools.conversation_tools import get_current_time
+from db_agent_sql.agent_integration import DatabaseContext
 
 logger = logging.getLogger(__name__)
 

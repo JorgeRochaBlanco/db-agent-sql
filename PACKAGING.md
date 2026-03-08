@@ -54,7 +54,7 @@ pip install -e ".[all]"
 ### 1.3 Test Import
 
 ```bash
-python -c "from db_query_agent import DatabaseQueryAgent; print('Success!')"
+python -c "from db_agent_sql import DatabaseQueryAgent; print('Success!')"
 ```
 
 ### 1.4 Run Tests
@@ -85,7 +85,7 @@ rm -rf build/ dist/ *.egg-info
 python -m build
 
 # This creates:
-# - dist/db_query_agent-0.1.0-py3-none-any.whl (wheel)
+# - dist/db_agent_sql-0.1.0-py3-none-any.whl (wheel)
 # - dist/db-query-agent-0.1.0.tar.gz (source)
 ```
 
@@ -106,7 +106,7 @@ tar -tzf dist/db-query-agent-0.1.0.tar.gz
 twine check dist/*
 
 # Should output:
-# Checking dist/db_query_agent-0.1.0-py3-none-any.whl: PASSED
+# Checking dist/db_agent_sql-0.1.0-py3-none-any.whl: PASSED
 # Checking dist/db-query-agent-0.1.0.tar.gz: PASSED
 ```
 
@@ -138,13 +138,13 @@ pip install --index-url https://test.pypi.org/simple/ \
     db-query-agent
 
 # Test import
-python -c "from db_query_agent import DatabaseQueryAgent; print('Success!')"
+python -c "from db_agent_sql import DatabaseQueryAgent; print('Success!')"
 ```
 
 ### 3.3 Test Basic Functionality
 
 ```python
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 # Create agent
 agent = DatabaseQueryAgent(
@@ -231,7 +231,7 @@ Navigate to: `https://github.com/Ocolus1/db-query-agent/releases/new`
 ### 5.3 Attach Files
 
 Upload distribution files:
-- `db_query_agent-0.1.0-py3-none-any.whl`
+- `db_agent_sql-0.1.0-py3-none-any.whl`
 - `db-query-agent-0.1.0.tar.gz`
 
 ### 5.4 Publish Release

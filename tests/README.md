@@ -75,7 +75,7 @@ pytest tests/test_phase4_integration.py tests/test_agent_integration.py -v
 
 ### Run with Coverage
 ```bash
-pytest tests/ --cov=db_query_agent --cov-report=html
+pytest tests/ --cov=db_agent_sql --cov-report=html
 ```
 
 ### Run Async Tests Only
@@ -129,7 +129,7 @@ Tests are designed to run in CI/CD pipelines:
 ### Example Test
 ```python
 import pytest
-from db_query_agent import DatabaseQueryAgent
+from db_agent_sql import DatabaseQueryAgent
 
 class TestNewFeature:
     """Test new feature."""

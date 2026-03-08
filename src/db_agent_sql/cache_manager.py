@@ -4,7 +4,7 @@ import time
 import hashlib
 import json
 from typing import Any, Optional, Dict
-from db_query_agent.exceptions import CacheError
+from db_agent_sql.exceptions import CacheError
 import logging
 
 logger = logging.getLogger(__name__)

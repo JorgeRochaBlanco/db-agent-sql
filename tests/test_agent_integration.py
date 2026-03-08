@@ -2,12 +2,12 @@
 
 import pytest
 from unittest.mock import Mock, AsyncMock, patch
-from db_query_agent.agent_integration import (
+from db_agent_sql.agent_integration import (
     AgentIntegration,
     DatabaseContext,
     QueryResponse
 )
-from db_query_agent.config import ModelConfig
+from db_agent_sql.config import ModelConfig
 
 
 class TestQueryResponse:

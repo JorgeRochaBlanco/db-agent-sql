@@ -2,7 +2,7 @@
 
 import pytest
 from unittest.mock import MagicMock, patch
-from db_query_agent import DatabaseQueryAgent, ChatSession
+from db_agent_sql import DatabaseQueryAgent, ChatSession
 
 
 class TestSessionUtilityMethods:
@@ -257,17 +257,17 @@ class TestExportedClasses:
     
     def test_agent_export(self):
         """Test DatabaseQueryAgent is exported."""
-        from db_query_agent import DatabaseQueryAgent
+        from db_agent_sql import DatabaseQueryAgent
         assert DatabaseQueryAgent is not None
     
     def test_chat_session_export(self):
         """Test ChatSession is exported."""
-        from db_query_agent import ChatSession
+        from db_agent_sql import ChatSession
         assert ChatSession is not None
     
     def test_config_classes_export(self):
         """Test configuration classes are exported."""
-        from db_query_agent import (
+        from db_agent_sql import (
             AgentConfig,
             DatabaseConfig,
             CacheConfig,
@@ -283,7 +283,7 @@ class TestExportedClasses:
     
     def test_exception_classes_export(self):
         """Test exception classes are exported."""
-        from db_query_agent import (
+        from db_agent_sql import (
             DatabaseQueryAgentError,
             ValidationError,
             QueryExecutionError,

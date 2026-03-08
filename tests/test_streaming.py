@@ -3,8 +3,8 @@
 import pytest
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
-from db_query_agent import DatabaseQueryAgent
-from db_query_agent.simple_multi_agent_system import SimpleMultiAgentSystem
+from db_agent_sql import DatabaseQueryAgent
+from db_agent_sql.simple_multi_agent_system import SimpleMultiAgentSystem
 
 
 class TestStreamingFunctionality:
@@ -92,7 +92,7 @@ class TestMultiAgentStreamig:
     @pytest.fixture
     def mock_model_config(self):
         """Create mock model config."""
-        from db_query_agent.config import ModelConfig
+        from db_agent_sql.config import ModelConfig
         return ModelConfig(
             strategy="adaptive",
             fast_model="gpt-4o-mini",
@@ -111,7 +111,7 @@ class TestMultiAgentStreamig:
         )
         
         # Mock Runner.run_streamed
-        with patch("db_query_agent.simple_multi_agent_system.Runner") as mock_runner:
+        with patch("db_agent_sql.simple_multi_agent_system.Runner") as mock_runner:
             # Create mock stream events
             async def mock_stream_events():
                 from openai.types.responses import ResponseTextDeltaEvent

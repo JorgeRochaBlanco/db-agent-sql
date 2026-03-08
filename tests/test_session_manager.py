@@ -1,7 +1,7 @@
 """Tests for session_manager module."""
 
 import pytest
-from db_query_agent.session_manager import SessionManager, ChatSession
+from db_agent_sql.session_manager import SessionManager, ChatSession
 
 
 class TestSessionManager:
